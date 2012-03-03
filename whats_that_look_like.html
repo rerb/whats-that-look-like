@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+    What's That Look Like is a Safari Extension that queries Google
+	Images for selected text.
+	
+    Copyright (C) 2011 Robert Erb
+
+    This file is part of What's That Look Like.
+
+    What's That Look Like is free software: you can redistribute it
+    and/or modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+
+    What's That Look Like is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied
+    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with What's That Look Like.  If not, see
+    <http://www.gnu.org/licenses/>.  
+-->
+<html lang="en">
+<head>
+    <script type="text/javascript">
+
+	function validateHandler(event) {
+		// get_selection.getSelectedText() stores selection in event.userInfo.
+		// If there's nothing selected, then don't show this menu item.
+		if (! Boolean(event.userInfo)) {
+			event.target.disabled = true;			
+		}
+	}
+
+    function queryGoogleImages(event) {
+		if (! Boolean(event.userInfo)) {
+			alert("can't query for nothing");
+			return;
+		}
+	  	if (event.command === "whats-that-look-like") {
+	  		googleImagesTab = safari.application.activeBrowserWindow.openTab();
+	  		googleImagesTab.url = "http://images.google.com/images?q=" +
+	  		 	event.userInfo;
+	  	}
+	}
+
+    safari.application.addEventListener("command",
+										queryGoogleImages,
+										false);
+    safari.application.addEventListener("validate",
+										validateHandler,
+										false);
+	</script>
+</head>
+<body>
+</body>
